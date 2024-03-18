@@ -1,4 +1,4 @@
-package cue.edu.co.Client;
+package cue.edu.co.client;
 
 import cue.edu.co.protocol.Decode;
 import cue.edu.co.protocol.Tags;

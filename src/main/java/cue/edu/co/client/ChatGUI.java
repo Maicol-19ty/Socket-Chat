@@ -1,4 +1,4 @@
-package cue.edu.co.Client;
+package cue.edu.co.client;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -20,7 +20,6 @@ import javax.swing.JPanel;
 import java.awt.EventQueue;
 
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;

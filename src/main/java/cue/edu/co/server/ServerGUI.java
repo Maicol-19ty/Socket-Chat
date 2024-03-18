@@ -1,4 +1,4 @@
-package cue.edu.co.Server;
+package cue.edu.co.server;
 
 import mdlaf.MaterialLookAndFeel;
 

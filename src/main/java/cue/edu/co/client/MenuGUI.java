@@ -1,4 +1,4 @@
-package cue.edu.co.Client;
+package cue.edu.co.client;
 
 import java.awt.EventQueue;
 
