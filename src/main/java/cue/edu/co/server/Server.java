@@ -11,6 +11,7 @@ import cue.edu.co.protocol.*;
 
 public class Server {
 
+    // Instance variables
     private ArrayList<Peer> peer_list = null;
     private ServerSocket server;
     private Socket connection;
@@ -18,19 +19,21 @@ public class Server {
     private ObjectInputStream listener;
     public boolean isStop = false, isExit = false;
 
-
+    // Constructor to initialize the server with IP and port
     public Server(String ip, int port) throws Exception {
         server = new ServerSocket(port, 50, InetAddress.getByName(ip));
         peer_list = new ArrayList<Peer>();
         (new WaitForConnect()).start();
     }
 
+    // Method to stop the server
     public void stop() throws Exception {
         isStop = true;
         server.close();
         connection.close();
     }
 
+    // Listens for incoming connections and handles them
     private boolean listen() throws Exception {
 
         connection = server.accept();
@@ -57,6 +60,8 @@ public class Server {
 
         return true;
     }
+
+    // Thread to continuously wait for incoming connections
     public class WaitForConnect extends Thread {
 
         @Override
@@ -83,6 +88,7 @@ public class Server {
         }
     }
 
+    // Saves information about a new peer
     private void saveNewPeer(String user, String ip, int port) throws Exception {
         Peer new_peer = new Peer();
         if (peer_list.size() == 0)
@@ -90,6 +96,7 @@ public class Server {
         new_peer.setPeer(user, ip, port);
         peer_list.add(new_peer);
     }
+    // Retrieves the index of a peer by its name
     private Integer getIndexByName(String name) throws Exception {
         if (peer_list == null) return -1;
 

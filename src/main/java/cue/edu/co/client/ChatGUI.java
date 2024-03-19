@@ -39,6 +39,8 @@ import javax.swing.JButton;
 
 public class ChatGUI {
 
+    // It sets the MaterialLookAndFeel and specifies some properties for buttons
+    // It catches UnsupportedLookAndFeelException if the look and feel cannot be set
     static {
         try {
             UIManager.setLookAndFeel(new MaterialLookAndFeel());
@@ -50,9 +52,11 @@ public class ChatGUI {
         }
     }
 
+    // Constants for defining directories
     private static String URL_DIR = System.getProperty("user.dir");
     private static String TEMP = "/temp/";
 
+    // Instance variables representing different components of the GUI
     private JFrame fmChat;
     private JPanel panelMessage, panelFile;
     private JLabel lbSending, lbReceiving;
@@ -60,12 +64,15 @@ public class ChatGUI {
     private JTextArea txtDisplayChat;
     private JProgressBar progressSendFile;
 
+    // Other variables for managing the chat session and file transfer
+    // These variables include chat room instance, socket connection, usernames, and flags for controlling actions
     private ChatRoom chat;
     private Socket socketChat;
     private String username = "", guest_name = "", file_name = "";
     public boolean isStop = false, isSendFile = false, isReceiveFile = false;
     private int portServer = 0;
 
+    // Main constructor
     public ChatGUI(String user, String guest, Socket socket, int port) {
         username = user;
         guest_name = guest;
@@ -83,7 +90,9 @@ public class ChatGUI {
         });
     }
 
+    // Secondary constructor for the main window
     public ChatGUI() {
+        // Method calls for initializing different components of the GUI
         initializeFrame();
         initializePanel();
         initializeLabel();
@@ -92,12 +101,16 @@ public class ChatGUI {
         initializeProgressBar();
     }
 
+    // Secondary constructor for the chat window
     public ChatGUI(String user, String guest, Socket socket, int port, int a) throws Exception {
+        // Initializing instance variables with provided values
         username = user;
         guest_name = guest;
         socketChat = socket;
         this.portServer = port;
 
+        // Invoking the secondary constructor to initialize the GUI components
+        // This constructor will also start the chat session
         initializeFrame();
         initializePanel();
         initializeLabel();
@@ -105,11 +118,15 @@ public class ChatGUI {
         initializeButton();
         initializeProgressBar();
 
+        // Creating a ChatRoom instance and starting the chat session
         chat = new ChatRoom(socketChat, username, guest_name);
         chat.start();
     }
 
+    // Method for initializing the window frame
     private void initializeFrame() {
+        // Creating a new JFrame for the chat window
+        // Setting title, size, position, layout, and close operation
         fmChat = new JFrame();
         fmChat.setTitle("Chat Room" + " - " + username);
         fmChat.setResizable(false);
@@ -118,7 +135,10 @@ public class ChatGUI {
         fmChat.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
     }
 
+    // Method for initializing the window panels
     private void initializePanel() {
+        // Creating two panels for displaying messages and file transfer controls
+        // Setting borders and layouts for the panels
         panelFile = new JPanel();
         panelFile.setBounds(6, 363, 670, 85);
         panelFile.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "File"));
@@ -132,7 +152,10 @@ public class ChatGUI {
         panelMessage.setLayout(null);
     }
 
+    // Method for initializing labels in the window
     private void initializeLabel() {
+        // Creating labels for displaying information such as chat participants and file transfer status
+        // Setting positions and visibility for the labels
         JLabel lbClientName = new JLabel("Chatting with: ");
         lbClientName.setBounds(6, 12, 155, 20);
         fmChat.getContentPane().add(lbClientName);
@@ -152,7 +175,10 @@ public class ChatGUI {
         panelFile.add(lbReceiving);
     }
 
+    // Method for initializing text fields in the window
     private void initializeTextBox() {
+        // Creating text fields for entering messages and displaying chat history
+        // Setting positions, sizes, and event listeners for the text fields
         JTextField textName = new JTextField(username);
         textName.setEditable(false);
         textName.setBounds(120, 7, 390, 28);
@@ -216,7 +242,10 @@ public class ChatGUI {
         });
     }
 
+    // Method for initializing buttons in the window
     private void initializeButton() {
+        // Creating buttons for actions such as sending messages, choosing files, and disconnecting
+        // Setting positions, sizes, and event listeners for the buttons
 
         File fileTemp = new File(URL_DIR + "/temp");
         if (!fileTemp.exists()) {
@@ -316,7 +345,10 @@ public class ChatGUI {
         fmChat.getContentPane().add(btnDisconnect);
     }
 
+    // Method for initializing the progress bar in the window
     private void initializeProgressBar() {
+        // Creating a progress bar for indicating file transfer progress
+        // Setting position, size, and visibility for the progress bar
         progressSendFile = new JProgressBar(0, 100);
         progressSendFile.setBounds(93, 60, 388, 14);
         progressSendFile.setStringPainted(true);
@@ -324,7 +356,9 @@ public class ChatGUI {
         progressSendFile.setVisible(false);
     }
 
+    // Main method for launching the chat application
     public static void main(String[] args) {
+        // Creating an instance of ChatGUI and making the chat window visible
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
@@ -337,11 +371,17 @@ public class ChatGUI {
         });
     }
 
+    // Method for updating the chat display with new messages
     public void updateChat(String msg) {
+        // Appending the new message to the chat display text area
         txtDisplayChat.append(msg + "\n");
     }
 
+    // Method for copying received files from input stream to output stream
     public void copyFileReceive(
+            // Copying the contents of the input stream to the output stream
+            // Closing both input and output streams after copying
+            // Deleting the temporary file if it exists after copying
             InputStream inputStr,
             OutputStream outputStr,
             String path)
@@ -359,7 +399,10 @@ public class ChatGUI {
 
     }
 
+    // Inner class representing the chat room functionality
     public class ChatRoom extends Thread {
+        // Instance variables for managing socket connection and file transfer
+        // These variables include input/output streams, flags, and file data
 
         private Socket connect;
         private ObjectOutputStream outPeer;
@@ -370,15 +413,19 @@ public class ChatGUI {
         private InputStream inFileSend;
         private FileData dataFile;
 
+        // Constructor for initializing the chat room with connection details
         public ChatRoom(Socket connection, String name, String guest)
+            // Initializing instance variables with provided values
                 throws Exception {
             connect = new Socket();
             connect = connection;
             guest_name = guest;
         }
 
+        // Run method for executing the chat functionality
         @Override
         public void run() {
+            // Implementation of chat functionality including sending and receiving messages/files
             super.run();
             OutputStream out = null;
             while (!isStop) {
@@ -574,7 +621,9 @@ public class ChatGUI {
             }
         }
 
+        // Method for sending messages or files through the socket
         public synchronized void sendMessage(Object obj) throws Exception {
+            // Sending the provided object through the output stream
             outPeer = new ObjectOutputStream(connect.getOutputStream());
             if (obj instanceof String) {
                 String message = obj.toString();
@@ -588,7 +637,9 @@ public class ChatGUI {
             }
         }
 
+        // Method for stopping the chat session and closing the socket connection
         public void stopChat() {
+            // Closing the socket connection
             try {
                 connect.close();
             } catch (IOException e) {

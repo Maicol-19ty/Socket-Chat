@@ -17,6 +17,7 @@ import javax.swing.JTextArea;
 
 public class ServerGUI {
 
+    // Static initializer block to set the MaterialLookAndFeel
     static {
         try {
             UIManager.setLookAndFeel(new MaterialLookAndFeel());
@@ -36,6 +37,7 @@ public class ServerGUI {
     private static JLabel lbNumber;
     Server server;
 
+    // Constructor to initialize the Server GUI
     public ServerGUI() {
         initializeFrame();
         initializeLabel();
@@ -43,6 +45,7 @@ public class ServerGUI {
         initializeButton();
     }
 
+    // Method to initialize the main JFrame
     private void initializeFrame() {
         fmServer = new JFrame();
         fmServer.setTitle("Server Controller");
@@ -52,6 +55,7 @@ public class ServerGUI {
         fmServer.getContentPane().setLayout(null);
     }
 
+    // Method to initialize text labels
     private void initializeLabel() {
         JLabel lbIP = new JLabel("IP :");
         lbIP.setBounds(5, 10, 40, 16);
@@ -63,6 +67,7 @@ public class ServerGUI {
 
     }
 
+    // Method to initialize text input fields
     private void initializeTextBox() {
         txtIP = new JTextField();
         txtIP.setBounds(40, 9, 210, 28);
@@ -84,6 +89,7 @@ public class ServerGUI {
         fmServer.getContentPane().add(txtMessage);
     }
 
+    // Method to initialize buttons
     private void initializeButton() {
         JButton btnStart = new JButton("START");
         btnStart.addActionListener(new ActionListener() {
@@ -120,6 +126,7 @@ public class ServerGUI {
         fmServer.getContentPane().add(btnStop);
     }
 
+    // Main method to launch the Server GUI
     public static void main(String[] args) {
 
         EventQueue.invokeLater(new Runnable() {
@@ -134,10 +141,12 @@ public class ServerGUI {
         });
     }
 
+    // Method to update the message displayed in the JTextArea
     public static void updateMessage(String msg) {
         txtMessage.append(msg + "\n");
     }
 
+    // Method to update the number of clients displayed
     public static void updateNumberClient() {
         int number = Integer.parseInt(lbNumber.getText());
         lbNumber.setText(Integer.toString(number + 1));

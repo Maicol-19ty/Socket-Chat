@@ -13,8 +13,10 @@ import cue.edu.co.protocol.*;
 
 public class Menu {
 
+    // Static array list for storing the list of friends
     public static ArrayList<Peer> friend_list = null;
 
+    // Handles communication with the server and chat requests
     private InetAddress server_ip_addr;
     private int server_port = 8080;
 
@@ -28,6 +30,7 @@ public class Menu {
     private ObjectInputStream listener;
     private ObjectOutputStream sender;
 
+    // Main constructor initializes connection details and starts threads
     public Menu(String server_ip, int server_port, int peer_port, String username, String dataUser) throws Exception {
         this.server_ip_addr = InetAddress.getByName(server_ip);
         this.server_port = server_port;
@@ -46,6 +49,7 @@ public class Menu {
         (new Request()).start();
     }
 
+    // Thread class for handling requests to the server
     public class Request extends Thread {
         @Override
         public void run() {
@@ -77,6 +81,7 @@ public class Menu {
         }
     }
 
+    // Requests a chat with a friend
     public void requestChat(String IP, int host, String guest) throws Exception {
         final Socket connclient = new Socket(InetAddress.getByName(IP), host);
         ObjectOutputStream sendrequestChat = new ObjectOutputStream(connclient.getOutputStream());
@@ -91,10 +96,9 @@ public class Menu {
         } else {
             new ChatGUI(username, guest, connclient, peer_port);
         }
-        // TO DO SOMETHING
-        // updateFiend
     }
 
+    // Requests to exit the chat application
     public void requestExit() throws IOException, ClassNotFoundException {
         isStop = true;
         client_socket = new Socket();
@@ -108,6 +112,7 @@ public class Menu {
         server.exit();
     }
 
+    // Updates the friend list in the GUI
     public void updateFriendList() {
         int size = friend_list.size();
         MenuGUI.clearFriendList();

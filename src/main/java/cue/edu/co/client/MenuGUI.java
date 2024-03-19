@@ -21,6 +21,7 @@ import java.awt.event.ActionEvent;
 
 public class MenuGUI {
 
+    // Static initializer block to set the look and feel of the UI
     static {
         try {
             UIManager.setLookAndFeel(new MaterialLookAndFeel());
@@ -32,8 +33,10 @@ public class MenuGUI {
         }
     }
 
+    // Static variable to hold the directory path
     private static String URL_DIR = System.getProperty("user.dir");
 
+    // Instance variables
     private Menu client_node;
     private String server_ip = "";
     private int server_port = 8080;
@@ -47,6 +50,7 @@ public class MenuGUI {
     private static JTextArea txtPeerList;
     private JButton btnChat, btnExit;
 
+    // Constructor with parameters to initialize the GUI with server details
     public MenuGUI(String server_ip, int server_port, int peer_port, String username, String message) throws Exception {
         this.server_ip = server_ip;
         this.server_port = server_port;
@@ -71,6 +75,7 @@ public class MenuGUI {
         });
     }
 
+    // Default constructor
     public MenuGUI() throws Exception {
         initializeFrame();
         initializeLabel();
@@ -79,6 +84,7 @@ public class MenuGUI {
         client_node = new Menu(server_ip, server_port, peer_port, username, message);
     }
 
+    // Initializes the main frame of the GUI
     private void initializeFrame() {
         fmMenu = new JFrame();
         fmMenu.setTitle("Menu");
@@ -90,6 +96,7 @@ public class MenuGUI {
         fmMenu.getContentPane().setLayout(null);
     }
 
+    // Initializes the labels in the GUI
     private void initializeLabel() {
         JLabel lbUsername = new JLabel("Username: ");
         lbUsername.setBounds(10, 17, 100, 16);
@@ -100,6 +107,7 @@ public class MenuGUI {
         fmMenu.getContentPane().add(lbFirendName);
     }
 
+    // Initializes the text boxes in the GUI
     private void initializeTextBox() {
         txtUsername = new JTextField(this.username);
         txtUsername.setEditable(false);
@@ -119,6 +127,7 @@ public class MenuGUI {
         fmMenu.getContentPane().add(txtFriendName);
     }
 
+    // Initializes the buttons in the GUI
     private void initializeButton() {
         btnChat = new JButton("Chat");
         btnChat.addActionListener(new ActionListener() {
@@ -174,6 +183,7 @@ public class MenuGUI {
         fmMenu.getContentPane().add(btnExit);
     }
 
+    // Main method to launch the application
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -187,6 +197,7 @@ public class MenuGUI {
         });
     }
 
+    // Shows a dialog box with a message
     public static int showDialog(String msg, boolean type) {
         JFrame frameMessage = new JFrame();
         if(type)
@@ -200,10 +211,12 @@ public class MenuGUI {
 
     }
 
+    // Updates the friend list displayed in the GUI
     public static void updateFiendList(String msg) {
         txtPeerList.append(msg + "\n");
     }
 
+    // Clears the friend list displayed in the GUI
     public static void clearFriendList() {
         txtPeerList.setText("");
         txtPeerList.setText("");
